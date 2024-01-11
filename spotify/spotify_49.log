@@ -1,0 +1,32 @@
+Query: Follow the artist of the album Mojito
+Planner: Search for the album with the name "Mojito"
+API Selector: GET /search?q=Mojito&type=album
+Caller: I need to make a GET request to search for albums with the keyword "Mojito".
+Operation: GET
+Input: 
+{
+    "url": "https://api.spotify.com/v1/search",
+    "params": {
+        "q": "Mojito",
+        "type": "album"
+    },
+    "description": "Get Spotify catalog information about albums that match the keyword 'Mojito'.",
+    "output_instructions": "What are the names and ids of the albums that match the keyword 'Mojito'?"
+}
+Code: 
+albums = data['albums']['items']
+album_names = [album['name'] for album in albums]
+album_ids = [album['id'] for album in albums]
+
+print("The names of the albums that match the keyword 'Mojito' are: {}".format(album_names))
+print("The ids of the albums that match the keyword 'Mojito' are: {}".format(album_ids))
+Output too long, truncating to 500 tokens
+Parser: The names of the albums that match the keyword 'Mojito' are: ['Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito (III: De Cuba y Veracruz)', 'Mojito (Foreign Barmaid)', 'MOJITO', 'Mojito F.C.']
+The ids of the albums that match the keyword 'Mojito' are: ['3YgAlfZsB8TBpUxh0mwoJj', '1Jn5rznEEW8wyVt2emzwWt', '6fr9aa3w1UjDUQfDPyW8ya', '1okSmL1Ki4dge0VIS7A9Xv', '1ZwcPxRq5bjvCshnpZVSH8', '7GzQH3UuUVUZNTB
+Planner: Continue
+API Selector: GET /albums/3YgAlfZsB8TBpUxh0mwoJj
+Caller: I need to make a GET request to retrieve information about the album with the id '3YgAlfZsB8TBpUxh0mwoJj'.
+
+
+=============
+Ground truth: ['GET /search', 'GET /albums/{id}', 'PUT /me/following']

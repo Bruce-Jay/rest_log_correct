@@ -1,0 +1,20 @@
+Query: Skip to the next track and set the volume to 60
+Planner: Skip to the next track
+API Selector: GET /me/player/next to skip to the next track in the user's queue
+API Selector: The API you called is not in the list of available APIs. Please use another API.
+API Selector: POST /me/player/next to skip to the next track in the user's queue
+Caller: I need to make a POST request to the /me/player/next endpoint to skip to the next track in the user's queue. I don't need any additional parameters or data for this request.
+Operation: POST
+Input: 
+{
+    "url": "https://api.spotify.com/v1/me/player/next",
+    "description": "Skips to next track in the user's queue.",
+    "output_instructions": "No output instructions."
+}
+Parser: The API call to skip to the next track in the user's queue requires a premium subscription.
+Planner: Final Answer: I'm sorry, but skipping to the next track requires a premium subscription.
+Execution Time: 20 seconds
+
+
+=============
+Ground truth: ['POST /me/player/next', 'PUT /me/player/volume']

@@ -1,0 +1,34 @@
+Query: Make my top tracks a new playlist called 'My Top'
+Planner: Get the user's top tracks
+API Selector: GET /me/top/tracks
+Caller: I need to make a GET request to the /me/top/tracks endpoint to get the current user's top tracks.
+Operation: GET
+Input: 
+{
+    "url": "https://api.spotify.com/v1/me/top/tracks",
+    "params": {
+        "time_range": "medium_term",
+        "limit": 1
+    },
+    "description": "Get the current user's top tracks.",
+    "output_instructions": "What is the name and id of the user's top track?"
+}
+Code: 
+# Given JSON response stored in 'data' variable
+
+# Extracting the name and id of the user's top track
+top_track_name = data['items'][0]['name']
+top_track_id = data['items'][0]['id']
+
+# Printing the result
+print("The name of the user's top track is {} and its id is {}".format(top_track_name, top_track_id))
+Code: 
+print("The name of the user's top track is", data['items'][0]['name'])
+print("The id of the user's top track is", data['items'][0]['id'])
+Parser: Error: No top tracks found for the current user.
+Planner: Final Answer: I'm sorry, but I couldn't find any top tracks for you.
+Execution Time: 25 seconds
+
+
+=============
+Ground truth: ['GET /me/top/{type}', 'GET /me', 'POST /users/{user_id}/playlists', 'POST /playlists/{playlist_id}/tracks']

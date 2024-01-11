@@ -1,0 +1,32 @@
+Query: Show me the albums I saved
+Planner: Get the user's saved albums
+API Selector: GET /me/albums
+Caller: I need to make a GET request to retrieve a list of albums saved in the current Spotify user's library. I should check the documentation for any required parameters or additional information.
+Operation: GET
+Input: 
+{
+    "url": "https://api.spotify.com/v1/me/albums",
+    "description": "Get a list of the albums saved in the current Spotify user's 'Your Music' library.",
+    "output_instructions": "Return the list of albums."
+}
+Code: 
+# Extracting the list of albums from the API response
+albums = data['items']
+
+# Extracting the name and id of each album
+album_info = [(album['name'], album['id']) for album in albums]
+
+# Printing the result
+print("The list of albums is: {}".format(album_info))
+Code: 
+albums = data['items']
+for album in albums:
+    album_name = album['album']['name']
+    print(album_name)
+Parser: Mojito
+
+Caller: Thought: I have successfully called the GET /me/albums API and retrieved the list of albums saved in the current Spotify user's library. The list of albums is "Mojito".
+
+
+=============
+Ground truth: ['GET /me/albums']

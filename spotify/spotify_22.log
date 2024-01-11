@@ -1,0 +1,8 @@
+Query: Append the first track in The Beatle's newest album to my 'My Rock' playlist
+Planner: Search for the album with the name "The Beatle's newest album"
+API Selector: GET /search?q=The%20Beatle's%20newest%20album&type=album
+Caller: I need to make a GET request to search for the newest album by The Beatles.
+
+
+=============
+Ground truth: ['GET /search', 'GET /artists/{id}/albums', 'POST /playlists/{playlist_id}/tracks', 'PUT /playlists/{playlist_id}']

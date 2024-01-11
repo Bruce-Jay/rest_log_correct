@@ -1,0 +1,24 @@
+Query: What is my user name?
+Planner: Get the user's profile information
+API Selector: GET /me
+Caller: I need to make a GET request to retrieve detailed profile information about the current user.
+Operation: GET
+Input: 
+{
+    "url": "https://api.spotify.com/v1/me",
+    "description": "Get detailed profile information about the current user.",
+    "output_instructions": "Return the current user's username."
+}
+Code: 
+username = data['display_name']
+print("The current user's username is {}".format(username))
+Parser: The current user's username is 施政良
+
+Caller: Thought: I have successfully called the GET /me API and retrieved the current user's username, which is 施政良.
+Planner: Thought: I have obtained the user's username.
+Final Answer: Your username is 施政良.
+Execution Time: 17 seconds
+
+
+=============
+Ground truth: ['GET /me']

@@ -1,0 +1,49 @@
+Query: Make me a playlist containing three songs of Mariah Carey and name it 'Love Mariah'
+Planner: search artist with name "Mariah Carey"
+API Selector: GET /search?q=Mariah Carey&type=artist
+Caller: I need to make a GET request to search for an artist named Mariah Carey.
+Operation: GET
+Input:
+{
+    "url": "https://api.spotify.com/v1/search",
+    "params": {
+        "q": "Mariah Carey",
+        "type": "artist"
+    },
+    "description": "Get Spotify catalog information about artists that match the keyword 'Mariah Carey'.",
+    "output_instructions": "What is the id of the artist Mariah Carey?"
+}
+Code:
+artist_id = data['artists']['items'][0]['id']
+print("The id of the artist Mariah Carey is {}".format(artist_id))
+Parser: The id of the artist Mariah Carey is 4iHNK0tOyZPYnBU7nGAgpQ
+
+Caller: Execution Result: Successfully called GET /search to search for the artist Mariah Carey. The id of Mariah Carey is 4iHNK0tOyZPYnBU7nGAgpQ.
+Planner: search for the top three songs of Mariah Carey (4iHNK0tOyZPYnBU7nGAgpQ)
+API Selector: GET /artists/4iHNK0tOyZPYnBU7nGAgpQ/top-tracks to get the top tracks of Mariah Carey (4iHNK0tOyZPYnBU7nGAgpQ)
+Caller: I need to make a GET request to the /artists/{id}/top-tracks endpoint to get the top tracks of Mariah Carey. I will use the artist id 4iHNK0tOyZPYnBU7nGAgpQ in the URL.
+
+Operation: GET
+Input: {
+    "url": "https://api.spotify.com/v1/artists/4iHNK0tOyZPYnBU7nGAgpQ/top-tracks",
+    "params": {
+        "market": "US"
+    },
+    "description": "Get the top tracks of Mariah Carey.",
+    "output_instructions": "Return the names and ids of the top tracks."
+}
+
+Thought: I will execute the GET request to retrieve the top tracks of Mariah Carey.
+
+Operation: GET
+Input: {
+    "url": "https://api.spotify.com/v1/artists/4iHNK0tOyZPYnBU7nGAgpQ/top-tracks",
+    "params": {
+        "market": "US"
+    }
+}
+
+
+
+=============
+Ground truth: ['GET /search', 'GET /me', 'POST /users/{user_id}/playlists', 'POST /playlists/{playlist_id}/tracks']

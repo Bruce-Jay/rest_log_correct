@@ -1,0 +1,28 @@
+Query: Delete all songs from my first playlist
+Planner: Get the list of playlists
+API Selector: GET /me/playlists
+Caller: I need to make a GET request to retrieve a list of playlists owned or followed by the current Spotify user. I should also consider the optional parameters for limit and offset.
+Operation: GET
+Input: 
+{
+    "url": "https://api.spotify.com/v1/me/playlists",
+    "params": {
+        "limit": 10,
+        "offset": 0
+    },
+    "description": "Retrieve a list of playlists owned or followed by the current Spotify user.",
+    "output_instructions": "Return the names and ids of the playlists."
+}
+Code: 
+playlists = data['items']
+result = [(playlist['name'], playlist['id']) for playlist in playlists]
+print("The names and ids of the playlists are: {}".format(result))
+Parser: The names and ids of the playlists are: [('Quiet', '3pYjKmBmaVypBUtxkO9rR4'), ('My Private Playlist', '6RY7aKoYeLfDfiLPPg1Uz5'), ('BIGBANG', '2EYdTTZjXjFa2IEbbISTOK'), ('Quiet', '0W34DgVU57EtmlvUKDw3hN'), ('My Top', '3PTsJDuWwb59iexifOLyWA'), ('Love Taylor', '3KrnAOiCydWQVo7s920bQt'), ('My Rock', '7fM2mpze7xVh7wZO9UdXRj'), ('My First', '1EWvvnv0PmX7R6kaEriSzr'), ('Love Mariah', '4eQFfZuFumiILQSIzm2fWQ')]
+
+Planner: Delete all songs from My First playlist (Playlist ID: 1EWvvn)
+API Selector: DELETE /playlists/1EWvvn/tracks to remove all songs from the My First playlist
+Caller: I need to execute the DELETE /playlists/1EWvvn/tracks API call to remove all songs from the My First playlist.
+
+
+=============
+Ground truth: ['GET /me/playlists', 'GET /playlists/{playlist_id}', 'DELETE /playlists/{playlist_id}/tracks']

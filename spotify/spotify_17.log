@@ -1,0 +1,18 @@
+Query: What is the name of the song I playing right now?
+Planner: Get the currently playing track
+API Selector: GET /me/player/currently-playing
+Caller: I need to make a GET request to the /me/player/currently-playing endpoint to get the track currently being played on the user's Spotify account.
+Operation: GET
+Input: 
+{
+    "url": "https://api.spotify.com/v1/me/player/currently-playing",
+    "description": "Get the track currently being played on the user's Spotify account.",
+    "output_instructions": "What is the name of the currently playing track?"
+}
+Code: 
+track_name = data['item']['name']
+print("The name of the currently playing track is {}".format(track_name))
+
+
+=============
+Ground truth: ['GET /me/player/currently-playing']
