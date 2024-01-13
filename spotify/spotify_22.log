@@ -2,7 +2,80 @@ Query: Append the first track in The Beatle's newest album to my 'My Rock' playl
 Planner: Search for the album with the name "The Beatle's newest album"
 API Selector: GET /search?q=The%20Beatle's%20newest%20album&type=album
 Caller: I need to make a GET request to search for the newest album by The Beatles.
+Planner: I need to first get the id of artist The Beatles using the artist's name.
+Operation: GET
+Input:
+{
+    "url": "https://api.spotify.com/v1/search",
+    "params": {
+        "q": "The Beatles",
+        "type": "artist"
+    },
+    "description": "Search for id of The Beatles"
+}
+Code:
+result = (data['artists']['items'][0]['id'], data['artists']['items'][0]['name'])
+print("The searched artist is: ", result)
+Parser: The searched artist is:  ('3WrFJ7ztbogyGnTHbHJFl2', 'The Beatles')
 
+Planner: I need to get the id of the album with the name "The Beatle's newest album" using the artist's id.
+Operation: GET
+Input:
+{
+    "url": "https://api.spotify.com/v1/artists/3WrFJ7ztbogyGnTHbHJFl2/albums",
+    "params": {
+        "include_groups": "album",
+        "limit": 10
+    },
+    "description": "Get newest 10 albums by The Beatles"
+}
+Code:
+result = (data['items'][0]['id'], data['items'][0]['name'])
+print("The searched album is: ", result)
+Parser: The searched album is:  ('2AlPRfYeskAMxhJS00xjeP', "The Beatles 1967 – 1970 (2023 Edition)")
+
+Planner: I need to get the id of the first track in the album.
+Operation: GET
+Input:
+{
+    "url": "https://api.spotify.com/v1/albums/2AlPRfYeskAMxhJS00xjeP/tracks",
+    "params": {
+        "limit": 1
+    },
+    "description": "Get the first track in the album"
+}
+Code:
+result = (data['items'][0]['id'], data['items'][0]['name'])
+print("The searched track is: ", result)
+Parser: The searched track is:  ('4JaTNsbucUxF3FtKqt3IY3', 'Strawberry Fields Forever - 2015 Mix')
+
+Planner: I need to add that track into my playlist named "My Rock". I need to get its id first.
+Operation: GET
+Input:
+{
+    "url": "https://api.spotify.com/v1/me/playlists",
+    "params": {
+        "limit": 20
+    },
+    "description": "Get all playlists of the user"
+}
+Code:
+result = data['items']
+playlist_id_to_operate = [playlist['id'] for playlist in result if playlist['name'] == 'My Rock']
+print("The searched playlist id is: ", playlist_id_to_operate[0])
+Parser: The searched playlist id is: 3lw3KkanqccIxsgc1XMiyt
+
+Planner: I need to add that track into my playlist named "My Rock", whose id is 3lw3KkanqccIxsgc1XMiyt.
+Operation: POST
+Input:
+{
+    "url": "https://api.spotify.com/v1/playlists/3lw3KkanqccIxsgc1XMiyt/tracks",
+    "data": {
+        "uris": ["spotify:track:4JaTNsbucUxF3FtKqt3IY3"]
+    },
+    "description": "Add the track into the playlist"
+}
+Parser: Successfully added the track into the playlist.
 
 =============
-Ground truth: ['GET /search', 'GET /artists/{id}/albums', 'POST /playlists/{playlist_id}/tracks', 'PUT /playlists/{playlist_id}']
+Ground truth: ['GET /search', 'GET /artists/{id}/albums', 'GET /albums/{id}/tracks', 'GET /me/playlists', 'POST /playlists/{playlist_id}/tracks']

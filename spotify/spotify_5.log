@@ -11,7 +11,22 @@ Input:
 }
 Code: 
 track_name = data['item']['name']
+track_id = data['item']['id']
 print("The name of the currently playing track is {}".format(track_name))
+Parser: The name of the currently playing track is 用我一輩子去忘記, and the id is 7BLmfstW5bLQV5rWK8VD3B
+
+Caller: I need to make a PUT request to the /me/tracks endpoint to add the currently playing track to the user's Spotify library.
+Operation: PUT
+Input:
+{
+    "url": "https://api.spotify.com/v1/me/tracks",
+    "data": {
+        "ids": ["7BLmfstW5bLQV5rWK8VD3B"]
+    },
+    "description": "Add the currently playing track to the user's Spotify library.",
+    "output_instructions": "The currently playing track has been added to your library."
+}
+Parser: The currently playing track has been added to My Music.
 
 
 =============

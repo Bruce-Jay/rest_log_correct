@@ -7,12 +7,37 @@ Input:
 {
     "url": "https://api.spotify.com/v1/me/player/currently-playing",
     "description": "Get the track currently being played on the user's Spotify account.",
-    "output_instructions": "What is the name of the currently playing track?"
+    "output_instructions": "What is the artist of the currently playing track?"
 }
 Code: 
-track_name = data['item']['name']
-print("The name of the currently playing track is {}".format(track_name))
+artist_name = data['item']['artists'][0]['name']
+artist_id = data['item']['artists'][0]['id']
+print("The artist to search is: ", artist_name)
+print("The artist id is: ", artist_id)
+Parser: The artist to search is:  Taylor Swift
+The artist id is:  06HL4z0CvFAxyc27GXpf02
 
+Caller: I need to unfollow the artist of the currently playing track.
+Operation: DELETE
+Input:
+{
+    "url": "https://api.spotify.com/v1/me/following",
+    "params": {
+        "type": "artist",
+        "ids": ["06HL4z0CvFAxyc27GXpf02"]
+    },
+    "description": "Unfollow the artist of the currently playing track.",
+}
+Parser: Successfully unfollowed artist.
+
+Caller: I need to skip to the next song.
+Operation: POST
+Input:
+{
+    "url": "https://api.spotify.com/v1/me/player/next",
+    "description": "Skip to the next song.",
+}
+Parser: Successfully skipped to the next song.
 
 =============
 Ground truth: ['GET /me/player/currently-playing', 'DELETE /me/following', 'POST /me/player/next']

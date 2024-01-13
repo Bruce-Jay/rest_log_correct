@@ -15,31 +15,23 @@ Input: {
 Code: 
 artist_id = data['artists']['items'][0]['id']
 print("The id of the artist is {}".format(artist_id))
-Parser: The id of the artist is 7v1NlLtP82T0FMIrE9gvu4
+Parser: The id of the artist is 04gDigrS5kc9YWfZHwBETP
 
-Planner: Get the newest album of Maroon 5 (7v1NlLtP82T0FMIrE9gvu4)
-API Selector: GET /artists/7v1NlLtP82T0FMIrE9gvu4/albums
+Planner: Get the newest album of Maroon 5 (04gDigrS5kc9YWfZHwBETP)
+API Selector: GET /artists/04gDigrS5kc9YWfZHwBETP/albums
 Caller: I need to make a GET request to the endpoint /artists/{id}/albums to get information about the albums of the artist with the id '7v1NlLtP82T0FMIrE9gvu4'.
 Operation: GET
 Input: {
-    "url": "https://api.spotify.com/v1/artists/7v1NlLtP82T0FMIrE9gvu4/albums",
+    "url": "https://api.spotify.com/v1/artists/04gDigrS5kc9YWfZHwBETP/albums",
     "description": "Get Spotify catalog information about an artist's albums.",
     "output_instructions": "Return the names and ids of the albums."
 }
 
 Code: 
 album_names = [album['name'] for album in data['items']]
-album_ids = [album['id'] for album in data['items']]
+print("The name of the newest album is: {}".format(album_names[0]))
 
-print("The names of the albums are: {}".format(album_names))
-print("The ids of the albums are: {}".format(album_ids))
-Parser: The names of the albums are: ['Order', 'The Cold Heart of the Sun', 'When Worlds Collide', 'Endorsed By Hate', 'Antagonist', 'Noises in The Right Order']
-The ids of the albums are: ['1DeYBWDUlDWnah36Q58OaT', '7gnBOJqStKrMIcoEWrZAGl', '6YAQjL4mHTpGNKxDqqCezH', '4eXBlOyzPfhmdjmBcmPfd4', '67JV3sAYUJfZkBJjQ3fmsU', '3iGOrTkJpeLu4axb0r8sKa']
-
-Planner: Get the name of the newest album of Maroon 5 (7v1NlLtP82T0FMIrE9gvu4)
-API Selector: GET /albums/1DeYBWDUlDWnah36Q58OaT
-Caller: I need to execute the plan by making a GET request to the endpoint /albums/1DeYBWDUlDWnah36Q58OaT.
-
+Parser: The name of the newest album is: JORDI (Deluxe)
 
 =============
 Ground truth: ['GET /search', 'GET /artists/{id}/albums']

@@ -10,9 +10,37 @@ Input:
     "output_instructions": "What is the name of the currently playing track?"
 }
 Code: 
-track_name = data['item']['name']
-print("The name of the currently playing track is {}".format(track_name))
+track_id = data['item']['id']
+print("The id of the currently playing track is {}".format(track_id))
+Parser: The id of the currently playing track is 5laooGcY5SocbZmDmAUaXv
 
+Caller: I need to make a GET request to the /tracks/{id} endpoint to get the track information of the currently playing track.
+Operation: GET
+Input:
+{
+    "url": "https://api.spotify.com/v1/tracks/5laooGcY5SocbZmDmAUaXv",
+    "description": "Get Spotify catalog information for a single track identified by its unique Spotify ID.",
+    "output_instructions": "What are the id and name of the artist of the currently playing track?"
+}
+Code:
+artist_id = data['artists'][0]['id']
+artist_name = data['artists'][0]['name']
+print("The id of the artist of the currently playing track is {} and the name is {}".format(artist_id, artist_name))
+Parser: The id of the artist of the currently playing track is 05YT4pdGRdXfb1bpYNvrIu and the name is Kosetsu Minami
+
+Caller: I need to make a DELETE request to the /me/following endpoint to remove the artist of the currently playing track from the user's following list.
+Operation: DELETE
+Input:
+{
+    "url": "https://api.spotify.com/v1/me/following",
+    "params": {
+        "type": "artist",
+        "ids": "05YT4pdGRdXfb1bpYNvrIu"
+    },
+    "description": "Remove the current user as a follower of one or more artists or other Spotify users.",
+    "output_instructions": "What is the name of the artist you want to remove from your following list?"
+}
+Parser: Successfully removed Kosetsu Minami from your following list.
 
 =============
 Ground truth: ['GET /me/player/currently-playing', 'GET /tracks/{id}', 'DELETE /me/following']

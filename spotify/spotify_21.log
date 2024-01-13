@@ -11,8 +11,33 @@ Input:
 }
 Code: 
 track_name = data['item']['name']
-print("The name of the currently playing track is {}".format(track_name))
+track_id = data['item']['id']
+print("The name and id of the currently playing track is {}".format(track_name, track_id))
+Parser: The name of the currently playing track is Curel Summer and the id is 1BxfuPKGuaTgP7aM0Bbdwr
+
+
+API Selector: GET /recommendations
+Caller: I need to make a GET request to the /recommendations endpoint to get a list of recommended tracks based on the genre of the currently playing track.
+Operation: GET
+Input:
+{
+    "url": "https://api.spotify.com/v1/recommendations",
+    "params": {
+        "seed_tracks": "1BxfuPKGuaTgP7aM0Bbdwr",
+        "limit": 5
+    },
+    "description": "Get a list of recommended tracks based on the genre of the currently playing track.",
+    "output_instructions": "What are the recommended tracks?"
+}
+Code:
+recommended_tracks = data['tracks']
+track_ids = [track['id'] for track in recommended_tracks]
+track_names = [track['name'] for track in recommended_tracks]
+print("The recommended tracks are {}".format(track_names))
+print("The recommended track ids are {}".format(track_ids))
+Parser: The recommended tracks are ['Maps', 'Daylight', 'Angels Like You', 'All Of The Girls You Loved Before', 'Burn']
+The recommended track ids are ['4gbVRS8gloEluzf0GzDOFc', '51Zw1cKDgkad0CXv23HCMU', '1daDRI9ahBonbWD8YcxOIB', '4P9Q0GojKVXpRTJCaL3kyy', '5lF0pHbsJ0QqyIrLweHJPW']
 
 
 =============
-Ground truth: ['GET /me/player/currently-playing', 'GET /search']
+Ground truth: ['GET /me/player/currently-playing', 'GET /recommendations']

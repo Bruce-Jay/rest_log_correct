@@ -19,34 +19,45 @@ playlist_ids = [item['id'] for item in data['items']]
 
 print("The names of the playlists are: {}".format(playlist_names))
 print("The ids of the playlists are: {}".format(playlist_ids))
-Parser: The names of the playlists are: ['My Private Playlist', 'BIGBANG', 'Quiet', 'My Top', 'Love Taylor', 'My Rock', 'My First', 'Love Mariah']
-The ids of the playlists are: ['6RY7aKoYeLfDfiLPPg1Uz5', '2EYdTTZjXjFa2IEbbISTOK', '0W34DgVU57EtmlvUKDw3hN', '3PTsJDuWwb59iexifOLyWA', '3KrnAOiCydWQVo7s920bQt', '7fM2mpze7xVh7wZO9UdXRj', '1EWvvnv0PmX7R6kaEriSzr', '4eQFfZuFumiILQSIzm2fWQ']
+Parser: The names of the playlists are: ['Test', 'Love Taylor', 'My Rock', 'Current', 'Current', 'My First', '相声', 'Cantopop Mix', 'JJ Lin', 'Freely sounded songs']
+The ids of the playlists are: ['36Y26XT9MfPnKFkzf5FPXH', '60t8eYghFZHUAOQ4wmMOM5', '3lw3KkanqccIxsgc1XMiyt', '2ocg799YlylVT6ILX0m9UW', '4PiynmdR78moxiKldkNtc1', '1seWVe5OhaIFgqvzVQPNqI', '4DClwQDGLtzuS9nSoCiAxp', '37i9dQZF1EQpLGeKfA7IRn', '3v3TZ2cWGYnRyCFUK8VeI8', '3sMOUq0nLEGRMv57m2FE4z']
 
-Planner: Remove the first song from the playlist 'My Rock' (7fM2mpze7xVh7wZO9UdXRj)
-API Selector: DELETE /playlists/7fM2mpze7xVh7wZO9UdXRj/tracks
-Caller: I need to delete tracks from the playlist with the id '7fM2mpze7xVh7wZO9UdXRj'.
+Caller: I need to get the id of the first playlist with name 'My Rock'(3lw3KkanqccIxsgc1XMiyt).
+Operation: GET
+Input: {
+    "url": "https://api.spotify.com/v1/playlists/3lw3KkanqccIxsgc1XMiyt/tracks",
+    "params": {
+        "limit": 1,
+        "offset": 0
+    },
+    "description": "The API response is a list of playlists owned or followed by the current Spotify user.",
+    "output_instructions": "What are the names and ids of the playlists?"
+}
+Code:
+playlist_names = [item['track']['name'] for item in response_json['items']]
+playlist_ids = [item['track']['id'] for item in response_json['items']]
+print("The names of the playlists are: {}".format(playlist_names))
+print("The ids of the playlists are: {}".format(playlist_ids))
+Parser: The names of the playlists are: ['Strawberry Fields Forever - 2015 Mix']
+The ids of the playlists are: ['4JaTNsbucUxF3FtKqt3IY3']
+
+Planner: Remove the first song (4JaTNsbucUxF3FtKqt3IY3) from the playlist 'My Rock' (3lw3KkanqccIxsgc1XMiyt)
+API Selector: DELETE /playlists/3lw3KkanqccIxsgc1XMiyt/tracks
+Caller: I need to delete tracks from the playlist with the id '3lw3KkanqccIxsgc1XMiyt'.
 Operation: DELETE
 Input: {
-    "url": "https://api.spotify.com/v1/playlists/7fM2mpze7xVh7wZO9UdXRj/tracks",
+    "url": "https://api.spotify.com/v1/playlists/3lw3KkanqccIxsgc1XMiyt/tracks",
+    "data": {
+        "tracks": [
+            {
+                "uri": "spotify:track:4JaTNsbucUxF3FtKqt3IY3",
+            }
+        ]
+    },
     "description": "Remove one or more items from a user's playlist.",
     "output_instructions": "No specific output instructions."
 }
-Code: 
-data = {
-    "snapshot_id": {
-        "example": "abc",
-        "type": "string"
-    }
-}
-
-snapshot_id = data['snapshot_id']['example']
-print("The snapshot id is {}".format(snapshot_id))
-Parser: The snapshot id is abc
-
-Caller: Thought: The DELETE request to remove tracks from the playlist with id '7fM2mpze7xVh7wZO9UdXRj' was successful and the response includes the snapshot id 'abc'.
-Planner: Thought: I have successfully removed the first song from the playlist 'My Rock'.
-Final Answer: The first song has been removed from your playlist 'My Rock'.
-Execution Time: 48 seconds
+Parser: Successfully removed tracks from playlist.
 
 
 =============

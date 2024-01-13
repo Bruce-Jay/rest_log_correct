@@ -7,22 +7,57 @@ Input:
 {
     "url": "https://api.spotify.com/v1/me/playlists",
     "params": {
-        "limit": 10,
+        "limit": 50,
         "offset": 0
     },
     "description": "Retrieve a list of playlists owned or followed by the current Spotify user.",
     "output_instructions": "Return the names and ids of the playlists."
 }
 Code: 
-playlists = data['items']
-result = [(playlist['name'], playlist['id']) for playlist in playlists]
-print("The names and ids of the playlists are: {}".format(result))
-Parser: The names and ids of the playlists are: [('Quiet', '3pYjKmBmaVypBUtxkO9rR4'), ('My Private Playlist', '6RY7aKoYeLfDfiLPPg1Uz5'), ('BIGBANG', '2EYdTTZjXjFa2IEbbISTOK'), ('Quiet', '0W34DgVU57EtmlvUKDw3hN'), ('My Top', '3PTsJDuWwb59iexifOLyWA'), ('Love Taylor', '3KrnAOiCydWQVo7s920bQt'), ('My Rock', '7fM2mpze7xVh7wZO9UdXRj'), ('My First', '1EWvvnv0PmX7R6kaEriSzr'), ('Love Mariah', '4eQFfZuFumiILQSIzm2fWQ')]
+playlist = data['items'][0]
+result = (playlist['name'], playlist['id'])
+print("The name and id of the playlist is: {}".format(result))
+Parser: The name and id of the playlist is: ('BIGBANG', '65UPIEEe06TZHzMxIyfkuN')
 
-Planner: Delete all songs from My First playlist (Playlist ID: 1EWvvn)
-API Selector: DELETE /playlists/1EWvvn/tracks to remove all songs from the My First playlist
-Caller: I need to execute the DELETE /playlists/1EWvvn/tracks API call to remove all songs from the My First playlist.
+Planner: Get the list of tracks in the playlist
+API Selector: GET /playlists/{playlist_id}
+Caller: I need to make a GET request to retrieve a list of tracks in a playlist owned by the current Spotify user. I should also consider the optional parameters for limit and offset.
+Operation: GET
+Input:
+{
+    "url": "https://api.spotify.com/v1/playlists/65UPIEEe06TZHzMxIyfkuN",
+    "params": {
+        "limit": 50,
+        "offset": 0
+    },
+    "description": "Retrieve a list of tracks in a playlist owned by the current Spotify user.",
+    "output_instructions": "Return the names and ids of the tracks."
+}
+Code:
+tracks = data['tracks']['items']
+track_names = [track['track']['name'] for track in tracks]
+track_ids = [track['track']['id'] for track in tracks]
+print("The names and ids of the tracks are: {}".format(list(zip(track_names, track_ids))))
+Parser: The names and ids of the tracks are: [('BANG BANG BANG', '3dI59jLoFMjMAyUAyRZnkE')]
 
+
+Planner: Delete all tracks from the playlist
+API Selector: DELETE /playlists/{playlist_id}/tracks
+Caller: I need to make a DELETE request to delete all tracks from a playlist owned by the current Spotify user. I should also consider the optional parameters for limit and offset.
+Operation: DELETE
+Input:
+{
+    "url": "https://api.spotify.com/v1/playlists/65UPIEEe06TZHzMxIyfkuN/tracks",
+    "data": {
+        "tracks": [
+            {
+                "uri": "spotify:track:3dI59jLoFMjMAyUAyRZnkE"
+            }
+        ]
+    },
+    "description": "Delete all tracks from a playlist owned by the current Spotify user.",
+}
+Parser: Successfully deleted all tracks from the playlist. The snapshot id is MywzZTllMTVkZDBlOWZjMmJjNTA2ZDYwOWYyYTI3MjY5ZGVhMTE2Zjlk
 
 =============
 Ground truth: ['GET /me/playlists', 'GET /playlists/{playlist_id}', 'DELETE /playlists/{playlist_id}/tracks']

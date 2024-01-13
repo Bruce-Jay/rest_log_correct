@@ -15,42 +15,55 @@ Input:
 }
 Code: 
 playlists = data['items']
-result = [(playlist['name'], playlist['id']) for playlist in playlists]
-print("The names and ids of the playlists are: {}".format(result))
-Parser: The names and ids of the playlists are: [('My Private Playlist', '6RY7aKoYeLfDfiLPPg1Uz5'), ('BIGBANG', '2EYdTTZjXjFa2IEbbISTOK'), ('Quiet', '0W34DgVU57EtmlvUKDw3hN'), ('My Top', '3PTsJDuWwb59iexifOLyWA'), ('Love Taylor', '3KrnAOiCydWQVo7s920bQt'), ('My Rock', '7fM2mpze7xVh7wZO9UdXRj'), ('My First', '1EWvvnv0PmX7R6kaEriSzr'), ('Love Mariah', '4eQFfZuFumiILQSIzm2fWQ')]
+result = [(playlist['name'], playlist['id']) for playlist in playlists if playlist['name'] == 'My R&B']
+print("The name and id of the playlist is: {}".format(result))
+Parser: The name and id of the playlist is: [('My R&B', '36Y26XT9MfPnKFkzf5FPXH')]
 
-1. Playlist Name: My Private Playlist, Playlist ID: 6RY7aKoYeLfDfiLPPg1Uz5
-2. Playlist Name: BIGBANG, Playlist ID: 2EYdTTZjXjFa2IEbbISTOK
-3. Playlist Name: Quiet, Playlist ID: 0W34DgVU57EtmlvUKDw3hN
-4. Playlist Name: My Top, Playlist ID: 3PTsJDuWwb59iexifOLyWA
-5. Playlist Name: Love Taylor, Playlist ID: 3KrnAOiCydWQVo7s920bQt
-6. Playlist Name: My Rock, Playlist ID: 7fM2mpze7xVh7wZO9UdXRj
-7. Playlist Name: My First, Playlist ID: 1EWvvnv0PmX7R6kaEriSzr
-8. Playlist Name: Love Mariah, Playlist ID: 4eQ
-Planner: Continue. search for my playlist with name "My R&B" (6RY7aKoYeLfDfiLPPg1Uz5)
-API Selector: GET /playlists/6RY7aKoYeLfDfiLPPg1Uz5
-Caller: I need to retrieve the details of the playlist with the ID "6RY7aKoYeLfDfiLPPg1Uz5".
+Caller: I need to get the track ids from the playlist.
 Operation: GET
-Input: {
-    "url": "https://api.spotify.com/v1/playlists/6RY7aKoYeLfDfiLPPg1Uz5",
-    "description": "Get the details of the playlist with the ID '6RY7aKoYeLfDfiLPPg1Uz5'.",
-    "output_instructions": "Return the name and description of the playlist."
+Input:
+{
+    "url": "https://api.spotify.com/v1/playlists/36Y26XT9MfPnKFkzf5FPXH/tracks",
+    "params": {
+        "fields": "total,items(track(uri))"
+    },
+    "description": "Get full details of the tracks of a playlist owned by a Spotify user.",
+    "output_instructions": "Return the track uris."
 }
-Code: 
-name = data['name']
-description = data['description']
+Code:
+tracks = data['items']
+uri_result = [track['track']['uri'] for track in tracks]
+print("The tracks' uris are:", uri_result)
+The tracks' uris are: ['spotify:track:5CmzhSIjflACRRsUNCSuCL']
 
-print("The name of the playlist is {}".format(name))
-print("The description of the playlist is {}".format(description))
-Parser: The name of the playlist is My Private Playlist
-The description of the playlist is My private playlist for my favorite songs
+Caller: I need to make a DELETE request to remove all tracks from a playlist.
+Operation: DELETE
+Input:
+{
+    "url": "https://api.spotify.com/v1/playlists/36Y26XT9MfPnKFkzf5FPXH/tracks",
+    "data": {
+        "tracks": [
+            {
+                "uri": 'spotify:track:5CmzhSIjflACRRsUNCSuCL'
+            }
+        ]
+    },
+    "description": "Remove all tracks from a playlist.",
+    "output_instructions": "Return the playlist with no tracks."
+}
 
-Caller: Thought: The GET request to retrieve the details of the playlist with the ID "6RY7aKoYeLfDfiLPPg1Uz5" was successful. I have obtained the name and description of the playlist.
-Planner: Continue
-API Selector: No API call needed. The playlist with the name "My R&B" does not exist in your playlists.
-Planner: Final Answer: The playlist with the name "My R&B" does not exist in your playlists.
-Execution Time: 57 seconds
-
+Caller: I need to make a PUT request to change a playlist's name.
+Operation: PUT
+Input:
+{
+    "url": "https://api.spotify.com/v1/playlists/36Y26XT9MfPnKFkzf5FPXH",
+    "data": {
+        "name": "Test"
+    },
+    "description": "Change a playlist's name.",
+    "output_instructions": "Return the playlist with the new name."
+}
+Parser: Successfully changed the playlist's name to Test.
 
 =============
-Ground truth: ['GET /me/playlists', 'DELETE /playlists/{playlist_id}/tracks', 'PUT /playlists/{playlist_id}']
+Ground truth: ['GET /me/playlists', 'GET /playlists/{playlist_id}/tracks', 'DELETE /playlists/{playlist_id}/tracks', 'PUT /playlists/{playlist_id}']

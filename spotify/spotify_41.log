@@ -1,24 +1,14 @@
 Query: Skip to the next track
 Planner: Continue
-API Selector: GET /me
-Caller: I need to make a GET request to retrieve detailed profile information about the current user.
-Operation: GET
+API Selector: POST /me/player/next
+Caller: I need to make a POST request to https://api.spotify.com/v1/me/player/next.
+Operation: POST
 Input: 
 {
-    "url": "https://api.spotify.com/v1/me",
-    "description": "Get detailed profile information about the current user.",
-    "output_instructions": "Return the current user's username."
+    "url": "https://api.spotify.com/v1/me/player/next",
+    "description": "Skip to the next track",
 }
-Code: 
-username = data['display_name']
-print("The current user's username is {}".format(username))
-Parser: The current user's username is 施政良
-
-Caller: Thought: I have successfully called GET /me and retrieved the current user's username, which is 施政良.
-Planner: Continue
-API Selector: No API call needed. The current user's username is 施政良.
-Planner: Final Answer: I'm sorry, but I couldn't find a suitable plan to fulfill your query.
-Execution Time: 21 seconds
+Parser: Successfully skipped to the next track.
 
 
 =============

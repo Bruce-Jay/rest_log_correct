@@ -6,6 +6,10 @@ Operation: GET
 Input: 
 {
     "url": "https://api.spotify.com/v1/me/albums",
+    "params": {
+        "limit": 50,
+        "offset": 0
+    },
     "description": "Get a list of the albums saved in the current Spotify user's 'Your Music' library.",
     "output_instructions": "Return the list of albums."
 }
@@ -18,12 +22,8 @@ album_info = [(album['name'], album['id']) for album in albums]
 
 # Printing the result
 print("The list of albums is: {}".format(album_info))
-Code: 
-albums = data['items']
-for album in albums:
-    album_name = album['album']['name']
-    print(album_name)
-Parser: Mojito
+
+Parser: The list of albums is: [('サマーピクニック～さよなら、またね～', '4PhCJk1AXmQpiLLmq7Z02j')]
 
 Caller: Thought: I have successfully called the GET /me/albums API and retrieved the list of albums saved in the current Spotify user's library. The list of albums is "Mojito".
 

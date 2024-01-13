@@ -33,41 +33,16 @@ playlist_name = data['items'][0]['name']
 
 print("The id of the first playlist is {}".format(playlist_id))
 print("The name of the first playlist is {}".format(playlist_name))
-Parser: The id of the first playlist is 6RY7aKoYeLfDfiLPPg1Uz5
-The name of the first playlist is My Private Playlist
+Parser: The id of the first playlist is 1seWVe5OhaIFgqvzVQPNqI
+The name of the first playlist is Love Mariah
 
 Planner: Successfully called POST /playlists/{playlist_id}/tracks to add the track "Summertime Sadness" (3BJe4B8zGnqEdQPMvfVjuS) to the playlist "My Private Playlist" (6RY7aKoYeLfDfiLPPg1Uz5).
 API Selector: POST /playlists/6RY7aKoYeLfDfiLPPg1Uz5/tracks to add the track "Summertime Sadness" (3BJe4B8zGnqEdQPMvfVjuS) to the playlist "My Private Playlist" (6RY7aKoYeLfDfiLPPg1Uz5)
-Caller: I need to add the track "Summertime Sadness" to the playlist "My Private Playlist".
+Caller: I need to add the track "Summertime Sadness" to the playlist "Love Mariah".
 Operation: POST
-Input: 
+Input:
 {
-    "url": "https://api.spotify.com/v1/playlists/6RY7aKoYeLfDfiLPPg1Uz5/tracks",
-    "data": {
-        "uris": "spotify:track:3BJe4B8zGnqEdQPMvfVjuS"
-    },
-    "description": "Add the track 'Summertime Sadness' to the playlist 'My Private Playlist'.",
-    "output_instructions": "Return the response."
-}
-Parser: The response is: 
-{
-  "error" : {
-    "status" : 400,
-    "message" : "Error parsing JSON."
-  }
-}
-Caller: Thought: There seems to be an issue with the API call. The error message suggests that there is an error parsing the JSON in the request body.
-
-Thought: I should check the input and make sure the JSON is formatted correctly.
-
-Thought: The issue might be with the "uris" parameter. It should be an array of URIs, but it is currently a string.
-
-Thought: I need to update the input and provide the "uris" parameter as an array.
-
-Operation: POST
-Input: 
-{
-    "url": "https://api.spotify.com/v1/playlists/6RY7aKoYeLfDfiLPPg1Uz5/tracks",
+    "url": "https://api.spotify.com/v1/playlists/1seWVe5OhaIFgqvzVQPNqI/tracks",
     "data": {
         "uris": ["spotify:track:3BJe4B8zGnqEdQPMvfVjuS"]
     },
@@ -75,12 +50,12 @@ Input:
     "output_instructions": "Return the response."
 }
 Parser: {
-  "snapshot_id" : "Myw2NWNlM2ZiYmFiODRhMmZkNGZjNjdhNjYwYWI4NDYyYjI2MzgxZmJl"
+  "snapshot_id" : "Myw2YTc3MzkyMTFhNjVlYjgyZWQyM2RlNDgxZjJiYjliOWVmOWY4YzQ3"
 }
 Caller: Thought: The API call was successful and the track "Summertime Sadness" has been added to the playlist "My Private Playlist".
 
 Planner: Thought: I am finished executing a plan and have the information the user asked for or the data the used asked to create
-Final Answer: Summertime Sadness by Lana Del Rey has been added to your first playlist, My Private Playlist.
+Final Answer: Summertime Sadness by Lana Del Rey has been added to your first playlist, Love Mariah.
 Execution Time: 89 seconds
 
 

@@ -15,17 +15,42 @@ Input:
 }
 Code: 
 albums = data['albums']['items']
-album_names = [album['name'] for album in albums]
-album_ids = [album['id'] for album in albums]
+album_name = [album['name'] for album in albums if album['artists'][0]['name'] == 'Jay Chou']
+album_id = [album['id'] for album in albums if album['artists'][0]['name'] == 'Jay Chou']
+print("The name of the albums that match the keyword 'Mojito' is: {}".format(album_name))
+print("The id of the albums that match the keyword 'Mojito' is: {}".format(album_id))
 
-print("The names of the albums that match the keyword 'Mojito' are: {}".format(album_names))
-print("The ids of the albums that match the keyword 'Mojito' are: {}".format(album_ids))
-Output too long, truncating to 500 tokens
-Parser: The names of the albums that match the keyword 'Mojito' are: ['Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito', 'Mojito (III: De Cuba y Veracruz)', 'Mojito (Foreign Barmaid)', 'MOJITO', 'Mojito F.C.']
-The ids of the albums that match the keyword 'Mojito' are: ['3YgAlfZsB8TBpUxh0mwoJj', '1Jn5rznEEW8wyVt2emzwWt', '6fr9aa3w1UjDUQfDPyW8ya', '1okSmL1Ki4dge0VIS7A9Xv', '1ZwcPxRq5bjvCshnpZVSH8', '7GzQH3UuUVUZNTB
+Parser: The name of the albums that match the keyword 'Mojito' is: ['Mojito']
+The id of the albums that match the keyword 'Mojito' is: ['7tbxuapTRzi4FFCKsu2roS']
+
 Planner: Continue
-API Selector: GET /albums/3YgAlfZsB8TBpUxh0mwoJj
-Caller: I need to make a GET request to retrieve information about the album with the id '3YgAlfZsB8TBpUxh0mwoJj'.
+API Selector: GET /albums/7tbxuapTRzi4FFCKsu2roS
+Caller: I need to make a GET request to retrieve information about the album with the id '7tbxuapTRzi4FFCKsu2roS'.
+Operation: GET
+Input:
+{
+    "url": "https://api.spotify.com/v1/albums/7tbxuapTRzi4FFCKsu2roS",
+    "description": "Get Spotify catalog information for a single album.",
+    "output_instructions": "What is the artist of the album with the id '7tbxuapTRzi4FFCKsu2roS'?"
+}
+Code:
+artist_name = data['artists'][0]['name']
+artist_id = data['artists'][0]['id']
+print("The artist of the album with the id '7tbxuapTRzi4FFCKsu2roS' is: {}".format(artist_id))
+Parser: The artist of the album with the id '7tbxuapTRzi4FFCKsu2roS' is: 2elBjNSdBE2Y3f0j1mjrql
+
+Caller: Now I know the artist of the album with the id '7tbxuapTRzi4FFCKsu2roS' is 'Jay Chou', I need to make a GET request to retrieve information about the artist with the id '2elBjNSdBE2Y3f0j1mjrql'.
+Operation: PUT
+Input:
+{
+    "url": "https://api.spotify.com/v1/me/following",
+    "params": {
+        "type": "artist",
+        "ids": "2elBjNSdBE2Y3f0j1mjrql"
+    },
+    "description": "Add the current user as a follower of one or more artists."
+}
+Parser: Successfully followed the artist with the id '2elBjNSdBE2Y3f0j1mjrql'.
 
 
 =============

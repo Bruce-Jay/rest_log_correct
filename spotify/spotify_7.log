@@ -10,9 +10,35 @@ Input:
     "output_instructions": "What is the name of the currently playing track?"
 }
 Code: 
-track_name = data['item']['name']
-print("The name of the currently playing track is {}".format(track_name))
+track_id = data['item']['id']
+print("The id of the currently playing track is {}".format(track_id))
+Parser: The id of the currently playing track is 6dQ3TYASXpmmsGHDN9PHUX
 
+Caller: I need to make a GET request to the /tracks/{id} endpoint to get the track information for the track with the id 6dQ3TYASXpmmsGHDN9PHUX.
+Operation: GET
+Input:
+{
+    "url": "https://api.spotify.com/v1/tracks/6dQ3TYASXpmmsGHDN9PHUX",
+    "description": "Get Spotify catalog information for a single track identified by its unique Spotify ID.",
+    "output_instructions": "What is the name of the id of the currently playing track?"
+}
+Code:
+artist_id = data['artists'][0]['id']
+print("The artist of the currently playing track is {}".format(artist_id))
+Parser: The artist of the currently playing track is 2DqYjQiVXvk7yFkqpVb5wX
+
+Caller: I need to make a PUT request to the /me/following endpoint to follow the artist with the id 2DqYjQiVXvk7yFkqpVb5wX.
+Operation: PUT
+Input:
+{
+    "url": "https://api.spotify.com/v1/me/following",
+    "params": {
+        "type": "artist",
+        "ids": ["2DqYjQiVXvk7yFkqpVb5wX"]
+    },
+    "description": "Add the current artist as following.",
+}
+Parser: Successfully added the artist as following.
 
 =============
 Ground truth: ['GET /me/player/currently-playing', 'GET /tracks/{id}', 'PUT /me/following']

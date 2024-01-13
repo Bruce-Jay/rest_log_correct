@@ -12,7 +12,7 @@ Input:
 Code: 
 track_name = data['item']['name']
 print("The name of the currently playing track is {}".format(track_name))
-
+Parser: The name of the currently playing track is 夢一夜
 
 =============
 Ground truth: ['GET /me/player/currently-playing']

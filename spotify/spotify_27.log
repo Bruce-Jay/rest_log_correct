@@ -10,9 +10,22 @@ Input:
     "output_instructions": "What is the name of the currently playing track?"
 }
 Code: 
-track_name = data['item']['name']
-print("The name of the currently playing track is {}".format(track_name))
+track_id = data['item']['id']
+print("The name of the currently playing track is {}".format(track_id))
+Parser: The name of the currently playing track is 1Iq8oo9XkmmvCQiGOfORiz
 
+Caller: I need to make a GET request to the /tracks/{id} endpoint to get the album information of the currently playing track.
+Operation: GET
+Input:
+{
+    "url": "https://api.spotify.com/v1/tracks/1Iq8oo9XkmmvCQiGOfORiz",
+    "description": "Get Spotify catalog information for a single track identified by its unique Spotify ID.",
+    "output_instructions": "What is the name of the album that the currently playing track is from?"
+}
+Code:
+album_name = data['album']['name']
+print("The name of the album that the currently playing track is from is {}".format(album_name))
+Parser: The name of the album that the currently playing track is from is 1989 (Taylor's Version)
 
 =============
 Ground truth: ['GET /me/player/currently-playing', 'GET /tracks/{id}']

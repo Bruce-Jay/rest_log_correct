@@ -1,17 +1,24 @@
 Query: Switch to the next song and set the single track repeat mode
-Planner: Check the current playing song and the current playback mode
-API Selector: GET /me/player/currently-playing
-Caller: I need to make a GET request to the /me/player/currently-playing endpoint to get the track currently being played on the user's Spotify account.
-Operation: GET
-Input: 
+Caller: I need to switch to the next song using the Spotify API /me/player/next of POST operation
+Operation: POST
+Input:
 {
-    "url": "https://api.spotify.com/v1/me/player/currently-playing",
-    "description": "Get the track currently being played on the user's Spotify account.",
-    "output_instructions": "What is the name of the currently playing track?"
+    "url": "https://api.spotify.com/v1/me/player/next",
+    "description": "Switch to the next song",
 }
-Code: 
-track_name = data['item']['name']
-print("The name of the currently playing track is {}".format(track_name))
+Parser: Successfully switched to the next song
+
+Caller: I need to set the single track repeat mode using the Spotify API /me/player/repeat of PUT operation
+Operation: PUT
+Input:
+{
+    "url": "https://api.spotify.com/v1/me/player/repeat",
+    "params": {
+        "state": "track"
+    },
+    "description": "Set the single track repeat mode",
+}
+Parser: Successfully set the single track repeat mode
 
 
 =============

@@ -5,3 +5,5 @@ tmdb_access_token: eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwZGJhYjU5MGM3ZWFjYTA3ZWJlNjI1
 spotipy_client_id: "43e3f643c51949cfa0c8f4afc32f19dc"
 spotipy_client_secret: "3b3bda7053c04b009ba1ec075999c6b1"
 spotipy_redirect_uri: "https://shizhl.top"
+
+spotify_user_id: "31vsldqexidawv5eqp35zaqj7wsy"

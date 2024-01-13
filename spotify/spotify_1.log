@@ -29,21 +29,63 @@ Input: {
     "params": {
         "market": "US"
     },
-    "description": "Get the top tracks of Mariah Carey.",
-    "output_instructions": "Return the names and ids of the top tracks."
+    "description": "Get the top three tracks of Mariah Carey.",
+    "output_instructions": "Return the names and ids of the top 3 tracks."
 }
+Code:
+top_tracks = data['tracks'][:3]
+track_id_values = ["spotify:track:" + str(track['id']) for track in top_tracks]
+# track_id_values = ['spotify:track:0bYg9bo50gSsH3LtXe2SQn', 'spotify:track:3PIDciSFdrQxSQSihim3hN', 'spotify:track:3B7FO3kJ5kv3mX7yiaB7sT']
+print("The top three tracks of Mariah Carey are {}".format(track_id_values))
+Parser: The three tracks of Mariah Carey to be added are ['spotify:track:0bYg9bo50gSsH3LtXe2SQn', 'spotify:track:3PIDciSFdrQxSQSihim3hN', 'spotify:track:3B7FO3kJ5kv3mX7yiaB7sT']
 
-Thought: I will execute the GET request to retrieve the top tracks of Mariah Carey.
-
+Caller: Get my user id
+Planner: GET /me
 Operation: GET
-Input: {
-    "url": "https://api.spotify.com/v1/artists/4iHNK0tOyZPYnBU7nGAgpQ/top-tracks",
-    "params": {
-        "market": "US"
-    }
+input: {
+    "url": "https://api.spotify.com/v1/me",
+    "description": "Get the current user's profile.",
+    "output_instructions": "What is the user id of the current user?"
 }
 
+Code:
+user_id = data['id']
+print("The user id of the current user is {}".format(user_id))
+Parser: The user id of the current user is 31vsldqexidawv5eqp35zaqj7wsy
 
+Caller: Make me a playlist named 'Love Mariah'
+Planner: create a playlist for the current user named 'Love Mariah'
+Operation: POST
+input: {
+    "url": "https://api.spotify.com/v1/users/31vsldqexidawv5eqp35zaqj7wsy/playlists",
+    "data": {
+        "name": "Love Mariah"
+    },
+    "description": "Create a playlist for the current user.",
+    "output_instructions": "What is the id of the playlist you just created?"
+}
+
+Code:
+playlist_id = data['id']
+print("The id of the playlist you just created is {}".format(playlist_id))
+Parser: The id of the playlist you just created is 1seWVe5OhaIFgqvzVQPNqI
+
+Caller: Add the top three songs of Mariah Carey to the playlist 'Love Mariah'
+Planner: add values in track_id_values to the playlist 'Love Mariah'
+Operation: POST
+input: {
+    "url": "https://api.spotify.com/v1/playlists/1seWVe5OhaIFgqvzVQPNqI/tracks",
+    "data": {
+        "uris": ['spotify:track:0bYg9bo50gSsH3LtXe2SQn', 'spotify:track:3PIDciSFdrQxSQSihim3hN', 'spotify:track:3B7FO3kJ5kv3mX7yiaB7sT']
+    },
+    "description": "Add tracks to a playlist.",
+    "output_instructions": "What is the snapshot id of the playlist after adding the tracks?"
+}
+
+Code:
+snapshot_id = data['snapshot_id']
+print("The snapshot id of the playlist after adding the tracks is {}".format(snapshot_id))
+Parser: The snapshot_id of the playlist after adding the tracks is MiwxZTVlMTg2MGRjMzZhMTA3YjNiOGI0YjdhNzJjNWNlMDcyMDMxZWQy
 
 =============
 Ground truth: ['GET /search', 'GET /me', 'POST /users/{user_id}/playlists', 'POST /playlists/{playlist_id}/tracks']

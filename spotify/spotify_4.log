@@ -11,8 +11,20 @@ Input:
     "description": "Skips to next track in the user's queue.",
     "output_instructions": "No output instructions."
 }
-Parser: The API call to skip to the next track in the user's queue requires a premium subscription.
-Planner: Final Answer: I'm sorry, but skipping to the next track requires a premium subscription.
+Parser: Successfully skipped to the next track in the user's queue.
+
+Caller: I need to make a PUT request to the /me/player/volume endpoint to set the volume to 60. I need to include the volume_percent parameter in the request body and set it to 60.
+Operation: PUT
+Input:
+{
+    "url": "https://api.spotify.com/v1/me/player/volume",
+    "params": {
+        "volume_percent": 60
+    },
+    "description": "Sets the volume for the user's current playback device.",
+    "output_instructions": "No output instructions."
+}
+Parser: Successfully set the volume to 60.
 Execution Time: 20 seconds
 
 

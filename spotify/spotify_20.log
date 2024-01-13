@@ -10,9 +10,25 @@ Input:
     "output_instructions": "What is the name of the currently playing track?"
 }
 Code: 
-track_name = data['item']['name']
-print("The name of the currently playing track is {}".format(track_name))
+artist_name = data['item']['artists']['name']
+artist_id = data['item']['artists']['id']
+print("The name and id of the artist of the currently playing track is {}".format(artist_name, artist_id))
+Parser: The name of the artist of the currently playing track is Kosetsu Minami, 05YT4pdGRdXfb1bpYNvrIu.
 
+
+Caller: I need to make a PUT request to the /me/following endpoint to follow the artist of the currently playing song.
+Operation: PUT
+Input:
+{
+    "url": "https://api.spotify.com/v1/me/following",
+    "params": {
+        "type": "artist",
+        "ids": ["05YT4pdGRdXfb1bpYNvrIu"]
+    },
+    "description": "Follow the artist of the currently playing song.",
+    "output_instructions": "No specified output instructions."
+}
+Parser: Successfully followed the artist of the currently playing song.
 
 =============
-Ground truth: ['GET /me/player/currently-playing', 'GET /tracks/{id}', 'PUT /me/following']
+Ground truth: ['GET /me/player/currently-playing', 'PUT /me/following']

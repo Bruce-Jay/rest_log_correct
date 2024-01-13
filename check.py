@@ -20,21 +20,21 @@ headers = {
 }
 
 requests_wrapper = Requests(headers=headers)
+spotify_user_id = config['spotify_user_id']
 ################# Http headers ################
 
 
 ################# request_data ###############
 # change the `data` with your own data to request http server
-method='GET' # choice: GET, POST, PUT, DELETE
+method='PUT' # choice: GET, POST, PUT, DELETE
 data={
-    "url": "https://api.spotify.com/v1/search",
+    "url": "https://api.spotify.com/v1/me/player/repeat",
     "params": {
-        "q": "Mariah Carey",
-        "type": "artist"
+        "state": "track"
     },
-    "description": "Get Spotify catalog information about artists that match the keyword 'Mariah Carey'.",
-    "output_instructions": "What is the id of the artist Mariah Carey?"
+    "description": "The API response is empty."
 }
+
 ################# request_data ###############
 
 
@@ -60,5 +60,12 @@ elif method == "DELETE":
 else:
     raise NotImplementedError
 response_text = response.text
-print(response_text)
+
+# 把内容保存到文件中
+# print(response_text)
+with open('output.json', 'w', encoding='utf-8') as f:
+    f.write(response_text)
 ################# request from http serve and print the execution result ###############
+
+response_json = json.loads(response_text)
+

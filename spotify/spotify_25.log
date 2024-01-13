@@ -6,50 +6,13 @@ Operation: GET
 Input: 
 {
     "url": "https://api.spotify.com/v1/me/top/artists",
-    "params": {
-        "time_range": "medium_term",
-        "limit": 1
-    },
-    "description": "Get the current user's top artists based on calculated affinity.",
-    "output_instructions": "What is the name of the top artist?"
+    "description": "Get top artists information about the current user.",
 }
-Code: 
-data = {
-    "href": "https://api.spotify.com/v1/me/shows?offset=0&limit=20",
-    "limit": 20,
-    "next": "https://api.spotify.com/v1/me/shows?offset=1&limit=1",
-    "offset": 0,
-    "previous": "https://api.spotify.com/v1/me/shows?offset=1&limit=1",
-    "total": 4,
-    "items": [
-        {
-            "external_urls": {
-                "spotify": "https://open.spotify.com/artist/12345"
-            },
-            "followers": {
-                "href": None,
-                "total": 1000
-            },
-            "genres": [
-                "Pop",
-                "Rock"
-            ],
-            "href": "https://api.spotify.com/v1/artists/12345",
-            "id": "12345",
-            "images": [
-                {
-                    "height": 300,
-                    "url": "https://i.scdn.co/image/12345",
-                    "width": 300
-                }
-            ],
-            "name": "John Doe",
-            "popularity": 80,
-            "type": "artist",
-            "uri
-Code: 
-print("The name of the top artist is", data['items'][0]['name'])
-Parser: The top artist is not available.
+Code:
+top_artist = data['items'][0]['name']
+Parser: The top_artist is Mika Nakashima.
+
+
 Caller: Execution Result: The API call GET /me/top/artists failed to retrieve the current user's top artists. The top artist is not available.
 Planner: Continue. Search for a song by the favorite artist
 API Selector: GET /search?q={favorite_artist}&type=track to search for a song by the favorite artist
@@ -59,64 +22,17 @@ Input:
 {
     "url": "https://api.spotify.com/v1/search",
     "params": {
-        "q": "{favorite_artist}",
+        "q": "Mika Nakashima",
         "type": "track"
     },
     "description": "Get Spotify catalog information about tracks that match a keyword string.",
     "output_instructions": "What is the id of the song by the favorite artist?"
 }
-Code: 
-# Given response data
-data = {
-    "albums": {
-        "href": "https://api.spotify.com/v1/me/shows?offset=0&limit=20",
-        "limit": 20,
-        "next": "https://api.spotify.com/v1/me/shows?offset=1&limit=1",
-        "offset": 0,
-        "previous": "https://api.spotify.com/v1/me/shows?offset=1&limit=1",
-        "total": 4,
-        "items": [
-            {
-                "album_type": "compilation",
-                "available_markets": ["CA", "BR", "IT"],
-                "copyrights": [
-                    {
-                        "text": "© 2021 Spotify AB",
-                        "type": "C"
-                    }
-                ],
-                "external_ids": {
-                    "ean": "1234567890123",
-                    "isrc": "USAT21900001",
-                    "upc": "123456789012"
-                },
-                "external_urls": {
-                    "spotify": "https://open.spotify.com/album/2up3OPMp9Tb4dAKM2erWXQ"
-                },
-                "genres": ["Egg punk
-Code: 
-print("The id of the song by the favorite artist is " + data['tracks']['items'][0]['id'])
-Parser: The id of the song by the favorite artist is 05N9gkXsriIGdWbWRQWA4x
-
-Planner: Get the details of the song with id 05N9gkXsriIGdWbWRQWA4x
-API Selector: GET /tracks/05N9gkXsriIGdWbWRQWA4x to get the details of the song with id 05N9gkXsriIGdWbWRQWA4x.
-Caller: I need to execute the GET /tracks/05N9gkXsriIGdWbWRQWA4x API call to get the details of the song with id 05N9gkXsriIGdWbWRQWA4x.
-
-Operation: GET
-Input: {
-    "url": "https://api.spotify.com/v1/tracks/05N9gkXsriIGdWbWRQWA4x",
-    "description": "Get the details of the song with id 05N9gkXsriIGdWbWRQWA4x.",
-    "output_instructions": "Return the name and artist of the song."
-}
-Code: 
-name = data['album']['name']
-artist = data['album']['artists'][0]['name']
-
-print("The name of the song is {} by {}".format(name, artist))
-Parser: The name of the song is Favourite Artist by Ufo361
-
-Planner: Final Answer: The song "Favourite Artist" by Ufo361 is a song by your favorite artist.
-Execution Time: 93 seconds
+Code:
+song = data['tracks']['items'][0]['name']
+song_url = data['tracks']['items'][0]['external_urls']['spotify']
+print("The song is {}, and its url is {}".format(song, song_url))
+Parser: The song is 雪の華, and its url is https://open.spotify.com/track/6Zyizxfz4NXdCgVLwhuBNw
 
 
 =============
